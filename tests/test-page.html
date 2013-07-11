@@ -2,14 +2,48 @@
 <html>
 <head>
 	<title></title>
+	<link rel="stylesheet" type="text/css" href="lib/jasmine-1.3.1/jasmine.css">
 </head><body>
 
-<div class="a"></div>
+<div class="test-1"></div>
+<div class="test-2 b">
+	<div class="b_1"></div>
+	<div class="b_2"></div>
+	<div class="b_3"></div>
+</div>
 
+<script type="text/javascript" src="lib/jasmine-1.3.1/jasmine.js"></script>
+<script type="text/javascript" src="lib/jasmine-1.3.1/jasmine-html.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="../jquery-replaceClass-0.1.0.js"></script>
+<script src="spec/replaceClass-spec.js"></script>
 <script>
-	$('.a').replaceClass('a');
+	(function() {
+		var jasmineEnv = jasmine.getEnv();
+		jasmineEnv.updateInterval = 1000;
+
+		var htmlReporter = new jasmine.HtmlReporter();
+
+		jasmineEnv.addReporter(htmlReporter);
+
+		jasmineEnv.specFilter = function(spec) {
+			return htmlReporter.specFilter(spec);
+		};
+
+		var currentWindowOnload = window.onload;
+
+		window.onload = function() {
+			if (currentWindowOnload) {
+				currentWindowOnload();
+			}
+			execJasmine();
+		};
+
+		function execJasmine() {
+			jasmineEnv.execute();
+		}
+
+	})();
 </script>
 </body>
 
